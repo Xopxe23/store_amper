@@ -8,6 +8,9 @@
       <div class="col-md-3 category-list">
         <!-- Список категорий с использованием стилей Bootstrap -->
         <div class="list-group">
+            <a href="{% url 'products:product-list'%}" class="list-group-item list-group-item-action">
+              Все категории
+            </a>
           {% for category in categories %}
             <a href="{% url 'products:category' category.id %}" class="list-group-item list-group-item-action">
               {{ category.name }}
@@ -27,7 +30,7 @@
                   <h5 class="card-title">{{ product.name }}</h5>
                   <p class="card-text">{{ product.description }}</p>
                   <h5 class="card-title">{{ product.price }} ₽</h5>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <a href="#" class="btn btn-primary">Добавить в корзину</a>
                 </div>
               </div>
             </div>

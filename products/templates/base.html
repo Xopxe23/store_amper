@@ -23,6 +23,24 @@
                       <a class="nav-link" href="{% url 'products:product-list' %}">Products</a>
                     </li>
                   </ul>
+
+                  <!-- Условия для отображения кнопок в зависимости от авторизации пользователя -->
+                  {% if user.is_authenticated %}
+                    <ul class="navbar-nav ms-auto">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+                      </li>
+                    </ul>
+                  {% else %}
+                    <ul class="navbar-nav ms-auto">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                      </li>
+                    </ul>
+                  {% endif %}
                 </div>
               </div>
             </nav>
