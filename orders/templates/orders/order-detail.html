@@ -1,0 +1,32 @@
+<!-- orders/templates/orders/order-detail.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <p>Status: <span class="badge bg-primary">{{ order.get_status_display }}</span></p>
+
+  <h4>Order Items</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order.cart_history.items %}
+        <tr>
+          <td>{{ item.product }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.total_price }} ₽</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h4>Total Price: {{ order.cart_history.total_price }} ₽</h4>
+</div>
+{% endblock %}

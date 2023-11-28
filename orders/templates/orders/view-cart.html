@@ -24,7 +24,10 @@
         <p>Total Quantity: <span class="badge bg-primary">{{ cart.total_quantity }}</span></p>
         <p>Total Price: <span class="badge bg-success">{{ cart.total_price }} ₽</span></p>
       </div>
+
+      <a href="{% url 'orders:create_order' %}" class="btn btn-primary mt-3">Place Order</a>
     </div>
   </div>
 </div>
 {% endblock %}
+
