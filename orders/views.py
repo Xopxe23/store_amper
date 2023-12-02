@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from orders.forms import OrderForm
+from orders.forms import ChangeOrderStatusForm, OrderForm
 from orders.models import Cart, CartItem, Order
 from products.models import Product
 
@@ -52,7 +52,7 @@ def remove_from_cart(request, cart_item_id):
 class OrderCreateView(CreateView):
     template_name = 'orders/order-create.html'
     form_class = OrderForm
-    success_url = reverse_lazy('orders:order_list')
+    success_url = reverse_lazy('orders:order-list')
 
     def form_valid(self, form):
         form.instance.initiator = self.request.user
@@ -67,10 +67,22 @@ class OrderListView(ListView):
     context_object_name = 'orders'
 
     def get_queryset(self):
-        return Order.objects.filter(initiator=self.request.user)
+        if self.request.user.is_staff:
+            return Order.objects.all().order_by('status', '-created_at')
+        return Order.objects.filter(initiator=self.request.user).order_by('status', '-created_at')
 
 
 class OrderDetailView(DetailView):
     template_name = 'orders/order-detail.html'
     model = Order
     context_object_name = "order"
+
+
+class OrderUpdateView(UpdateView):
+    template_name = 'orders/order-update.html'
+    model = Order
+    form_class = ChangeOrderStatusForm
+    context_object_name = "order"
+
+    def get_success_url(self):
+        return reverse_lazy("orders:order-detail", args=[self.object.pk])

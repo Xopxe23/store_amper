@@ -1,0 +1,14 @@
+<!-- orders/templates/orders/order-update.html -->
+{% extends 'orders/order-detail.html' %}
+{% load static %}
+
+{% block status %}
+    <form method="post" class="mt-3">
+      {% csrf_token %}
+      {{ form.as_p }}
+        <p>
+            <button type="submit" class="badge bg-primary">Сохранить</button>
+        </p>
+
+    </form>
+{% endblock %}

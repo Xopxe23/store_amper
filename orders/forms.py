@@ -8,3 +8,10 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         fields = ("full_name", "email", "address", "phone", "comment")
+
+
+class ChangeOrderStatusForm(ModelForm):
+
+    class Meta:
+        model = Order
+        fields = ("status", )

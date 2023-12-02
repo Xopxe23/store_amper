@@ -10,12 +10,12 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             {{ cart_item.product.name }}
             <span class="badge bg-primary rounded-pill">
-              <a href="{% url 'orders:subtract_quantity' cart_item.id %}" class="text-white">-</a>
+              <a href="{% url 'orders:subtract-quantity' cart_item.id %}" class="text-white">-</a>
               {{ cart_item.quantity }}
-              <a href="{% url 'orders:add_quantity' cart_item.id %}" class="text-white">+</a>
+              <a href="{% url 'orders:add-quantity' cart_item.id %}" class="text-white">+</a>
             </span>
             <span class="badge bg-success rounded-pill">{{ cart_item.total_price }} ₽</span>
-            <a href="{% url 'orders:remove_from_cart' cart_item.id %}" class="btn btn-danger">Remove</a>
+            <a href="{% url 'orders:remove-from-cart' cart_item.id %}" class="btn btn-danger">Remove</a>
           </li>
         {% endfor %}
       </ul>
@@ -25,7 +25,7 @@
         <p>Total Price: <span class="badge bg-success">{{ cart.total_price }} ₽</span></p>
       </div>
 
-      <a href="{% url 'orders:create_order' %}" class="btn btn-primary mt-3">Place Order</a>
+      <a href="{% url 'orders:create-order' %}" class="btn btn-primary mt-3">Place Order</a>
     </div>
   </div>
 </div>

@@ -4,8 +4,14 @@
 {% load static %}
 
 {% block content %}
+
 <div class="container mt-5">
-  <p>Status: <span class="badge bg-primary">{{ order.get_status_display }}</span></p>
+  {% block status %}
+    <p>Status: <span class="badge bg-primary">{{ order.get_status_display }}</span></p>
+    {% if user.is_staff %}
+      <p><a href="{% url 'orders:order-update' order.id %}" class="badge bg-primary">Изменить</a></p>
+    {% endif %}
+  {% endblock status %}
 
   <h4>Order Items</h4>
   <table class="table">
@@ -28,5 +34,14 @@
   </table>
 
   <h4>Total Price: {{ order.cart_history.total_price }} ₽</h4>
+
+  {% if user.is_staff %}
+    <div class="mt-4">
+      <h5 class="mb-3">Информация о заказе:</h5>
+      <p class="mb-2"><strong>Address:</strong> {{ order.address }}</p>
+      <p class="mb-2"><strong>Comment:</strong> {{ order.comment }}</p>
+    </div>
+  {% endif %}
 </div>
+
 {% endblock %}
