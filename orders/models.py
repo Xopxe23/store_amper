@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F, Sum
 
 from products.models import Product
 from users.models import EmailUser
@@ -11,20 +12,33 @@ class Cart(models.Model):
     def __str__(self):
         return f"Cart for {self.user.email}"
 
-    def total_price(self):
-        cart_items = self.cartitem_set.all()
-        total_sum = sum([item.total_price() for item in cart_items])
-        return total_sum
+    # def total_price(self):
+    #     cart_items = self.cartitem_set.all()
+    #     total_sum = sum([item.total_price() for item in cart_items])
+    #     return total_sum
+    #
+    # def total_quantity(self):
+    #     cart_items = self.cartitem_set.all()
+    #     total_sum = sum([item.quantity for item in cart_items])
+    #     return total_sum
 
-    def total_quantity(self):
-        cart_items = self.cartitem_set.all()
-        total_sum = sum([item.quantity for item in cart_items])
-        return total_sum
+    def calculate_totals(self):
+        totals = (
+            self.cartitem_set
+            .aggregate(
+                total_quantity=Sum('quantity'),
+                total_price=Sum(F('quantity') * F('product__price'))
+            )
+        )
+        self.total_quantity = totals['total_quantity'] or 0
+        self.total_price = totals['total_price'] or 0
+        self.save()
 
     def to_json(self):
+        self.calculate_totals()
         cart = {
             "items": [],
-            "total_price": float(self.total_price()),
+            "total_price": float(self.total_price),
         }
         for item in self.cartitem_set.all():
             cart_item = {

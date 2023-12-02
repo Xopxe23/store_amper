@@ -2,7 +2,8 @@ from django.urls import path
 
 from orders.views import (OrderCreateView, OrderDetailView, OrderListView,
                           OrderUpdateView, add_quantity, add_to_cart,
-                          remove_from_cart, subtract_quantity, view_cart)
+                          export_orders_to_excel, remove_from_cart,
+                          subtract_quantity, view_cart)
 
 app_name = 'orders'
 
@@ -16,4 +17,5 @@ urlpatterns = [
     path('order_list/', OrderListView.as_view(), name='order-list'),
     path('order_detail/<int:pk>', OrderDetailView.as_view(), name='order-detail'),
     path('order_update/<int:pk>', OrderUpdateView.as_view(), name='order-update'),
+    path('export-orders-to-excel/', export_orders_to_excel, name='export-orders-to-excel'),
 ]

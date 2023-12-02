@@ -5,7 +5,13 @@
 
 {% block content %}
 <div class="container mt-5">
+
+  {% if user.is_staff %}
+  <h2>Orders</h2>
+  <a href="{% url 'orders:export-orders-to-excel' %}" class="btn btn-success mb-3">Download Excel</a>
+  {% else %}
   <h2>Your Orders</h2>
+  {% endif %}
   <table class="table">
     <thead>
       <tr>
