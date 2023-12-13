@@ -22,6 +22,8 @@ def view_cart(request):
     context = {
         'cart': cart,
         'cart_items': cart_items,
+        'total_price': cart.total_price,
+        'total_quantity': cart.total_quantity
     }
 
     return render(request, 'orders/view-cart.html', context)
